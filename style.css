@@ -1,0 +1,683 @@
+/* Import NeoDunggeunmo and Pretendard Fonts */
+@import url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/NeoDunggeunmo.css');
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css');
+
+:root {
+  /* Nintendo 2001 Retro Color Tokens */
+  --colors-primary: #e60012; /* Nintendo Red */
+  --colors-signal: #f68d1f; /* Signal Orange */
+  --colors-amber: #ecab37; /* Amber */
+  --colors-nav-gold: #e48600; /* Deeper gold */
+  
+  --colors-canvas: #7a8aba; /* Periwinkle Metallic */
+  --colors-periwinkle: #8ba1d4; /* Light Periwinkle */
+  --colors-sky: #9fbee7; /* Pale Sky */
+  --colors-lavender: #acace7; /* Pale Lavender */
+  --colors-ice: #c0d5e6; /* Pale Ice */
+  --colors-chrome-indigo: #3d4f97; /* Chrome Indigo border shadow */
+  --colors-muted-indigo: #60619c;
+  --colors-platinum: #dedede;
+  --colors-surface: #ffffff;
+  
+  --colors-ink: #21242e; /* Carbon Navy */
+  --colors-ink-soft: #3d4f97;
+  --colors-on-primary: #ffffff;
+  
+  /* Spacing Tokens */
+  --spacing-xxs: 2px;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 24px;
+  --spacing-xxl: 32px;
+  --spacing-section: 48px;
+
+  /* Border Radii */
+  --rounded-none: 0px;
+  --rounded-xs: 2px;
+  --rounded-sm: 4px;
+  --rounded-md: 6px;
+  --rounded-lg: 10px;
+  --rounded-full: 9999px;
+}
+
+/* Reset & Global Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: 'NeoDunggeunmo', 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  background-color: var(--colors-canvas);
+  color: var(--colors-ink);
+  font-size: 15px; /* Increased base body size */
+  line-height: 1.5;
+  overflow-x: hidden;
+  padding: 20px 0;
+  font-weight: 700;
+}
+
+/* Typography Outlined Display */
+.typography-display {
+  font-size: 54px; /* Significantly larger */
+  font-weight: 900;
+  color: #ffffff;
+  /* Multi-layered text-shadow outlines to prevent browser pixelation/jaggies */
+  text-shadow: 
+    -2px -2px 0 var(--colors-chrome-indigo),  
+     2px -2px 0 var(--colors-chrome-indigo),
+    -2px  2px 0 var(--colors-chrome-indigo),
+     2px  2px 0 var(--colors-chrome-indigo),
+     4px  4px 0px var(--colors-chrome-indigo);
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+
+.typography-display-sm {
+  font-size: 30px; /* Larger */
+  font-weight: 900;
+  color: #ffffff;
+  text-shadow: 
+    -1.5px -1.5px 0 var(--colors-chrome-indigo),  
+     1.5px -1.5px 0 var(--colors-chrome-indigo),
+    -1.5px  1.5px 0 var(--colors-chrome-indigo),
+     1.5px  1.5px 0 var(--colors-chrome-indigo),
+     3px  3px 0px var(--colors-chrome-indigo);
+}
+
+.typography-hero-tagline {
+  font-size: 16px; /* Larger */
+  font-weight: 700;
+  color: var(--colors-ink);
+}
+
+.typography-nav-link {
+  font-size: 15px; /* Larger */
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.typography-ui-label {
+  font-size: 13px; /* Larger */
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.typography-link {
+  font-size: 14px; /* Larger */
+  font-weight: 800;
+  color: var(--colors-ink-soft);
+  text-decoration: none;
+}
+
+.typography-link:hover {
+  text-decoration: underline;
+}
+
+.typography-body {
+  font-size: 15px; /* Larger */
+  font-weight: 700;
+}
+
+.typography-micro {
+  font-size: 12px; /* Larger */
+  font-weight: 700;
+}
+
+/* beveled metal plates */
+.beveled-plate {
+  background-color: var(--colors-periwinkle);
+  border-top: 2px solid #ffffff;
+  border-left: 2px solid #ffffff;
+  border-bottom: 2px solid var(--colors-chrome-indigo);
+  border-right: 2px solid var(--colors-chrome-indigo);
+  box-shadow: inset 1px 1px 0px rgba(255, 255, 255, 0.2);
+}
+
+.beveled-plate-inset {
+  background-color: var(--colors-platinum);
+  border-top: 2px solid var(--colors-chrome-indigo);
+  border-left: 2px solid var(--colors-chrome-indigo);
+  border-bottom: 2px solid #ffffff;
+  border-right: 2px solid #ffffff;
+}
+
+/* Chamfered cut corners panel geometry */
+.chamfered-panel {
+  clip-path: polygon(
+    12px 0%, 
+    calc(100% - 12px) 0%, 
+    100% 12px, 
+    100% calc(100% - 12px), 
+    calc(100% - 12px) 100%, 
+    12px 100%, 
+    0% calc(100% - 12px), 
+    0% 12px
+  );
+}
+
+/* Halftone Dot Matrix Pattern */
+.halftone-slab {
+  background-color: var(--colors-ink);
+  background-image: radial-gradient(var(--colors-chrome-indigo) 20%, transparent 20%);
+  background-size: 4px 4px;
+}
+
+/* Layout container */
+.nintendo-container {
+  width: 100%;
+  max-width: 980px; /* Increased width to make layout feel larger and spacious */
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+/* Masthead Row */
+.masthead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: var(--spacing-sm);
+  padding: 0 5px;
+}
+
+.mascot-area {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mascot-bubble {
+  position: relative;
+  background-color: #ffffff;
+  border: 2px solid var(--colors-chrome-indigo);
+  border-radius: var(--rounded-lg);
+  padding: var(--spacing-sm) var(--spacing-md);
+  color: var(--colors-ink);
+  font-size: 11px;
+}
+
+.mascot-bubble:after {
+  content: '';
+  position: absolute;
+  left: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-width: 8px 8px 8px 0;
+  border-style: solid;
+  border-color: transparent #ffffff transparent transparent;
+  display: block;
+  width: 0;
+}
+
+.mascot-bubble:before {
+  content: '';
+  position: absolute;
+  left: -11px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-width: 9px 9px 9px 0;
+  border-style: solid;
+  border-color: transparent var(--colors-chrome-indigo) transparent transparent;
+  display: block;
+  width: 0;
+  z-index: -1;
+}
+
+/* Navigation Layer */
+.nintendo-nav-bar {
+  height: 48px; /* Larger height */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 var(--spacing-md);
+  border-bottom: 2.5px solid var(--colors-chrome-indigo);
+}
+
+.nintendo-nav-links {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+}
+
+.nintendo-nav-links a {
+  color: var(--colors-nav-gold);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 800;
+  text-shadow: 1px 1px 0px #000000;
+  padding: 4px 8px;
+  transition: color 0.1s;
+}
+
+.nintendo-nav-links a.active {
+  color: #ffffff;
+  background-color: var(--colors-chrome-indigo);
+}
+
+.nintendo-nav-links a:active {
+  transform: scale(0.95);
+}
+
+/* Sub-nav strip */
+.subnav-strip {
+  background-color: var(--colors-sky);
+  border-bottom: 2.5px solid var(--colors-chrome-indigo);
+  padding: 10px var(--spacing-md); /* More padding */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--colors-ink);
+  font-size: 13px; /* Larger */
+  font-weight: 800;
+}
+
+/* Main Frame Grid */
+.main-frame {
+  margin-top: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+
+.panel-header {
+  height: 38px; /* Larger panel header */
+  display: flex;
+  align-items: center;
+  padding: 0 var(--spacing-md);
+  background-color: var(--colors-sky);
+  border-bottom: 2.5px solid var(--colors-chrome-indigo);
+  font-size: 13px; /* Larger */
+  font-weight: 800;
+  color: var(--colors-ink);
+  text-transform: uppercase;
+}
+
+.panel-content {
+  padding: var(--spacing-lg);
+}
+
+/* Buttons */
+.btn-signal {
+  background-color: var(--colors-signal);
+  color: #ffffff;
+  border-top: 2.5px solid #ffba77;
+  border-left: 2.5px solid #ffba77;
+  border-bottom: 2.5px solid #9e4b00;
+  border-right: 2.5px solid #9e4b00;
+  padding: 14px 28px; /* Larger padding */
+  font-family: inherit;
+  font-size: 15px; /* Larger */
+  font-weight: 800;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-signal:active {
+  border-top: 2px solid #9e4b00;
+  border-left: 2px solid #9e4b00;
+  border-bottom: 2px solid #ffba77;
+  border-right: 2px solid #ffba77;
+  transform: translateY(1px);
+}
+
+.btn-amber {
+  background-color: var(--colors-amber);
+  color: var(--colors-ink);
+  border-top: 2px solid #ffe183;
+  border-left: 2px solid #ffe183;
+  border-bottom: 2px solid #92610b;
+  border-right: 2px solid #92610b;
+  padding: 10px 18px; /* Larger */
+  font-family: inherit;
+  font-size: 13px; /* Larger */
+  font-weight: 800;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.btn-amber:active {
+  border-top: 2px solid #92610b;
+  border-left: 2px solid #92610b;
+  border-bottom: 2px solid #ffe183;
+  border-right: 2px solid #ffe183;
+  transform: translateY(1px);
+}
+
+.btn-carbon {
+  background-color: var(--colors-ink);
+  color: #ffffff;
+  border-top: 2px solid #4f5367;
+  border-left: 2px solid #4f5367;
+  border-bottom: 2px solid #000000;
+  border-right: 2px solid #000000;
+  padding: 6px 12px;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.btn-carbon:active {
+  border-top: 2px solid #000000;
+  border-left: 2px solid #000000;
+  border-bottom: 2px solid #4f5367;
+  border-right: 2px solid #4f5367;
+  transform: translateY(1px);
+}
+
+/* Option Configurator chips */
+.console-option-chip {
+  background-color: var(--colors-sky);
+  border-top: 2px solid #ffffff;
+  border-left: 2px solid #ffffff;
+  border-bottom: 2px solid var(--colors-chrome-indigo);
+  border-right: 2px solid var(--colors-chrome-indigo);
+  padding: 12px 24px; /* Larger padding */
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 14px; /* Larger */
+  font-weight: 800;
+  color: var(--colors-ink);
+  transition: all 0.1s;
+  user-select: none;
+}
+
+.console-option-chip.selected {
+  background-color: var(--colors-signal);
+  color: #ffffff;
+  border-top: 1.5px solid #ffba77;
+  border-left: 1.5px solid #ffba77;
+  border-bottom: 1.5px solid #9e4b00;
+  border-right: 1.5px solid #9e4b00;
+  text-shadow: 1px 1px 0px rgba(0,0,0,0.2);
+}
+
+.console-option-chip:active {
+  transform: translateY(1px);
+}
+
+/* Inset Grid layouts */
+.console-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: var(--spacing-lg);
+}
+
+/* Retro Toggle Row */
+.retro-toggle-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: var(--spacing-sm);
+  background-color: var(--colors-sky);
+  border: 1px solid var(--colors-chrome-indigo);
+  margin-bottom: var(--spacing-lg);
+  width: fit-content;
+}
+
+/* Form fields */
+.retro-input {
+  background-color: var(--colors-surface);
+  border-top: 2px solid var(--colors-chrome-indigo);
+  border-left: 2px solid var(--colors-chrome-indigo);
+  border-bottom: 2px solid #ffffff;
+  border-right: 2px solid #ffffff;
+  padding: 10px var(--spacing-md);
+  font-family: inherit;
+  font-size: 14px; /* Larger */
+  font-weight: 700;
+  color: var(--colors-ink);
+  outline: none;
+  width: 100%;
+  height: 40px; /* Enforced height */
+}
+
+select.retro-input {
+  height: 40px !important;
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
+  background-color: var(--colors-surface) !important;
+}
+
+.retro-input:focus {
+  border-color: var(--colors-primary);
+}
+
+.retro-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+/* Result panel grid - Styled as a Light LCD Console Screen */
+.result-screen {
+  background-color: #d1dbe4; /* Light periwinkle/grey LCD screen fill */
+  border-top: 3px solid var(--colors-chrome-indigo);
+  border-left: 3px solid var(--colors-chrome-indigo);
+  border-bottom: 3px solid #ffffff;
+  border-right: 3px solid #ffffff;
+  padding: var(--spacing-xxl) var(--spacing-xl);
+  color: var(--colors-ink); /* Carbon navy text */
+  font-family: inherit;
+  text-align: center;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.08);
+}
+
+.result-name-text {
+  font-size: 38px;
+  font-weight: 900;
+  color: var(--colors-primary); /* Nintendo Red for the main recommended name */
+  text-shadow: 1.5px 1.5px 0px #ffffff;
+  margin-bottom: var(--spacing-md);
+  font-family: inherit;
+}
+
+.result-desc-text {
+  font-size: 16px;
+  color: var(--colors-ink);
+  max-width: 500px;
+  margin-bottom: var(--spacing-lg);
+  font-family: inherit;
+}
+
+.result-badge-text {
+  font-size: 13px;
+  background-color: var(--colors-sky);
+  border: 2px solid var(--colors-chrome-indigo);
+  padding: 4px 10px;
+  font-weight: 800;
+  margin: 0 4px;
+  color: var(--colors-ink);
+  font-family: inherit;
+}
+
+/* Dotted dividers */
+.dotted-rule {
+  border: none;
+  border-top: 2px dotted var(--colors-chrome-indigo);
+  margin: var(--spacing-lg) 0;
+  height: 0;
+}
+
+/* Tables */
+.retro-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.retro-table th {
+  background-color: var(--colors-sky);
+  color: var(--colors-ink);
+  font-size: 11px;
+  font-weight: 800;
+  padding: 8px;
+  border: 1px solid var(--colors-chrome-indigo);
+  text-transform: uppercase;
+}
+
+.retro-table td {
+  padding: 8px;
+  background-color: var(--colors-surface);
+  border: 1px solid var(--colors-chrome-indigo);
+  color: var(--colors-ink);
+  font-size: 12px;
+}
+
+.action-cell {
+  text-align: center;
+  width: 90px;
+}
+
+.delete-link {
+  color: var(--colors-primary);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.delete-link:hover {
+  text-decoration: underline;
+}
+
+/* Popups / Modals */
+.retro-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(33, 36, 46, 0.8);
+  z-index: 10000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.retro-modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.retro-modal {
+  width: 90%;
+  max-width: 440px;
+}
+
+/* Footer structure */
+.nintendo-footer {
+  margin-top: var(--spacing-xl);
+  padding: var(--spacing-lg);
+  color: var(--colors-sky);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 2px solid var(--colors-chrome-indigo);
+}
+
+.nintendo-footer a {
+  color: var(--colors-sky);
+  text-decoration: none;
+}
+
+.nintendo-footer a:hover {
+  text-decoration: underline;
+}
+
+/* Invisible Admin Switcher period */
+.secret-trigger {
+  opacity: 0.1;
+  cursor: pointer;
+  user-select: none;
+  font-size: 12px;
+}
+.secret-trigger:hover {
+  opacity: 0.8;
+}
+
+/* Toast */
+.retro-toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background-color: var(--colors-signal);
+  color: #ffffff;
+  border: 2px solid #ffffff;
+  padding: 10px 20px;
+  font-weight: 800;
+  z-index: 10001;
+  transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.2s;
+  opacity: 0;
+  pointer-events: none;
+  box-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+}
+
+.retro-toast.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+/* View control */
+.view-section {
+  display: none;
+}
+
+.view-section.active {
+  display: block;
+}
+
+/* Custom Checkbox for Retro Look */
+.retro-checkbox-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.retro-checkbox-container input {
+  display: none;
+}
+
+.retro-checkbox {
+  width: 20px;
+  height: 20px;
+  background-color: var(--colors-surface);
+  border: 2px solid var(--colors-chrome-indigo);
+  display: inline-block;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.retro-checkbox-container input:checked + .retro-checkbox:after {
+  content: '✓';
+  position: absolute;
+  font-size: 16px;
+  font-weight: 900;
+  color: var(--colors-primary);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  line-height: 1;
+}

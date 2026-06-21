@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="레트로 하드웨어 감성의 프리미엄 밥집 추천 서비스. 오늘 먹을 메뉴와 주변 맛집을 신속히 매칭합니다.">
+  <title>오늘 뭐 먹지?</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="nintendo-container">
+    
+    <!-- Masthead Row (Retro Mario & Outlined Title) -->
+    <header class="masthead">
+      <div class="mascot-area">
+        <!-- Pixel emoji representing Mario mascot -->
+        <span style="font-size: 28px;">👾</span>
+        <div class="mascot-bubble">
+          <strong>어서오세요!</strong> 오늘 뭐 먹지? 입니다!
+        </div>
+      </div>
+      <h1 class="typography-display">오늘 뭐 먹지?</h1>
+    </header>
+
+    <!-- Primary Navigation Bar (Carbon Navy with Halftone dot pattern) -->
+    <nav class="nintendo-nav-bar halftone-slab">
+      <ul class="nintendo-nav-links">
+        <li><a href="#" class="nav-tab active" data-target="recommender">추천기 (RECOMMENDER)</a></li>
+        <li><a href="#" id="suggest-menu-btn">맛집 추가 요청 (SUGGEST)</a></li>
+        <li id="admin-nav-link" style="display: none;"><a href="#" class="nav-tab" data-target="admin">관리자 콘솔 (ADMIN)</a></li>
+      </ul>
+      <div style="color: var(--colors-amber); font-size: 11px; font-weight: 800; text-shadow: 1px 1px 0px #000000; display: flex; align-items: center; gap: 8px;">
+        <span style="background-color: var(--colors-primary); color: #ffffff; padding: 2px 6px; border-radius: var(--rounded-xs);">Ver 1.0</span>
+      </div>
+    </nav>
+
+    <!-- Sub-navigation strip (Pale Sky) -->
+    <div class="subnav-strip">
+      <div id="weather-status-text">현재 날씨: 수집 중... (날씨 반영 대기)</div>
+      <button class="btn-amber" id="quick-sim-toggle" style="padding: 2px 8px; font-size: 10px;">날씨 시뮬레이션 토글</button>
+    </div>
+
+    <!-- Main View Frame -->
+    <main class="main-frame">
+
+      <!-- VIEW 1: RECOMMENDER VIEW -->
+      <div id="view-recommender" class="view-section active">
+        
+        <!-- Recommender Panel (Beveled Plate with Chamfered corners) -->
+        <div class="beveled-plate chamfered-panel">
+          <div class="panel-header">
+            ≡ SELECT OPTIONS
+          </div>
+          <div class="panel-content">
+            
+            <!-- Weather Simulator Dashboard (Toggled) -->
+            <div id="weather-sim-panel" style="display: none; background-color: var(--colors-sky); border: 2px solid var(--colors-chrome-indigo); padding: 12px; margin-bottom: 20px;">
+              <div class="typography-ui-label" style="margin-bottom: 8px; color: var(--colors-ink);">WEATHER CONTROLLER</div>
+              <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
+                <button class="console-option-chip selected" data-weather="sunny">☀️ 맑음</button>
+                <button class="console-option-chip" data-weather="cloudy">☁️ 흐림</button>
+                <button class="console-option-chip" data-weather="rainy">🌧️ 비</button>
+                <button class="console-option-chip" data-weather="snowy">❄️ 눈</button>
+                
+                <div style="display: flex; align-items: center; gap: 6px; margin-left: auto;">
+                  <label class="typography-ui-label" for="sim-temp" style="margin: 0;">온도:</label>
+                  <input type="number" id="sim-temp" class="retro-input" style="width: 50px; height: 26px; padding: 2px;" value="22">
+                  <span style="font-weight: 800; font-size: 11px;">°C</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Option 1: Category -->
+            <div style="margin-bottom: var(--spacing-lg);">
+              <label class="retro-label">카테고리 (FOOD TYPE)</label>
+              <div class="console-grid" id="category-grid">
+                <button class="console-option-chip selected" data-value="all">전체보기</button>
+                <button class="console-option-chip" data-value="한식">한식</button>
+                <button class="console-option-chip" data-value="중식">중식</button>
+                <button class="console-option-chip" data-value="일식">일식</button>
+                <button class="console-option-chip" data-value="양식">양식</button>
+                <button class="console-option-chip" data-value="분식">분식</button>
+                <button class="console-option-chip" data-value="기타">기타</button>
+              </div>
+            </div>
+
+            <!-- Option 2: Location -->
+            <div style="margin-bottom: var(--spacing-lg);">
+              <label class="retro-label">위치 상권 (LOCATION)</label>
+              <div class="console-grid" id="location-grid">
+                <button class="console-option-chip selected" data-value="all">전체보기</button>
+                <button class="console-option-chip" data-value="정후">안암 정후</button>
+                <button class="console-option-chip" data-value="참살이길">참살이길</button>
+                <button class="console-option-chip" data-value="기타">기타 상권</button>
+              </div>
+            </div>
+
+            <!-- Option 3: Weather Option -->
+            <div style="margin-bottom: var(--spacing-xl);">
+              <label class="retro-checkbox-container">
+                <input type="checkbox" id="weather-filter-toggle" checked>
+                <span class="retro-checkbox"></span>
+                실시간 기상 조건 반영 추천 활성화 (비오는 날 전, 추운 날 국물류 우선 매칭)
+              </label>
+            </div>
+
+            <!-- Action Button -->
+            <div style="text-align: center; margin-top: var(--spacing-lg);">
+              <button class="btn-signal" id="trigger-recommend-btn" style="font-size: 15px; padding: 12px 30px;">
+                🕹️ 오늘의 맛집 결정하기
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="dotted-rule"></div>
+
+        <!-- Result Console Display screen (Fades in when recommended) -->
+        <div id="result-section" class="beveled-plate chamfered-panel" style="display: none; margin-top: 20px;">
+          <div class="panel-header" style="background-color: var(--colors-primary); color: #ffffff;">
+            ≡ RECOMMENDATION RESULT
+          </div>
+          <div class="panel-content">
+            
+            <div class="result-screen">
+              <div class="typography-ui-label" style="color: var(--colors-ink); margin-bottom: 8px; font-weight: 900;">MATCH FOUND</div>
+              <h2 class="result-name-text" id="result-restaurant-name">미뇽식당</h2>
+              
+              <div style="margin-bottom: 12px;">
+                <span class="result-badge-text" id="result-badge-category">한식</span>
+                <span class="result-badge-text" id="result-badge-location">정후</span>
+                <span class="result-badge-text" id="result-badge-weather" style="display: none;">🌧️ 비오는 날</span>
+              </div>
+              
+
+              
+              <div id="result-explanation-text" style="display: none !important;"></div>
+            </div>
+
+            <div style="text-align: center; margin-top: var(--spacing-lg); display: flex; justify-content: center; gap: 12px; align-items: center;">
+              <button class="btn-signal" id="re-recommend-btn" style="font-size: 13px; padding: 10px 20px;">다른 맛집 찾아보기 (RETRY)</button>
+              <button class="btn-carbon" id="reset-recommend-btn" style="font-size: 13px; padding: 10px 20px;">조건 초기화 (RESET)</button>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- VIEW 2: DATABASE ADMIN VIEW (Invisible by default, accessed via secret trigger/password or URL hash) -->
+      <div id="view-admin" class="view-section">
+        
+        <!-- Pending suggestions panel -->
+        <div class="beveled-plate chamfered-panel" style="margin-bottom: 20px;">
+          <div class="panel-header" style="background-color: var(--colors-amber); color: var(--colors-ink);">
+            ≡ 사용자 맛집 등록 요청 목록 (PENDING SUGGESTIONS)
+          </div>
+          <div class="panel-content">
+            <div class="beveled-plate-inset" style="overflow-x: auto; padding: 8px;">
+              <table class="retro-table" id="pending-table">
+                <thead>
+                  <tr>
+                    <th>식당 이름</th>
+                    <th>카테고리</th>
+                    <th>위치</th>
+                    <th>날씨 태그</th>
+
+                    <th style="width: 120px; text-align: center;">결정</th>
+                  </tr>
+                </thead>
+                <tbody id="pending-table-body">
+                  <!-- JS builds rows here -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Master Database list -->
+        <div class="beveled-plate chamfered-panel">
+          <div class="panel-header">
+            ≡ 전체 맛집 데이터베이스 관리 (DATABASE MANAGER)
+          </div>
+          <div class="panel-content" style="display: grid; grid-template-columns: 1fr; gap: 20px;">
+            
+            <!-- Left card: Quick Add -->
+            <div class="beveled-plate-inset" style="padding: 12px;">
+              <div class="typography-ui-label" style="margin-bottom: var(--spacing-sm);">식당 강제 등록 (ADMIN DIRECT ADD)</div>
+              
+              <form id="admin-add-form" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <div style="grid-column: span 2;">
+                  <label class="retro-label">식당 이름</label>
+                  <input type="text" id="admin-new-name" class="retro-input" required>
+                </div>
+                <div>
+                  <label class="retro-label">카테고리</label>
+                  <select id="admin-new-category" class="retro-input" style="height: 33px; background: white;" required>
+                    <option value="한식">한식</option>
+                    <option value="중식">중식</option>
+                    <option value="일식">일식</option>
+                    <option value="양식">양식</option>
+                    <option value="분식">분식</option>
+                    <option value="기타">기타</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="retro-label">위치 상권</label>
+                  <select id="admin-new-location" class="retro-input" style="height: 33px; background: white;" required>
+                    <option value="정후">안암 정후</option>
+                    <option value="참살이길">참살이길</option>
+                    <option value="기타">기타 상권</option>
+                  </select>
+                </div>
+                <div style="grid-column: span 2;">
+                  <label class="retro-label">추천 날씨 상황</label>
+                  <select id="admin-new-weather" class="retro-input" style="height: 33px; background: white;" required>
+                    <option value="상관없음">상관없음 (모든 날씨)</option>
+                    <option value="더운 날">더운 날 (28°C 이상)</option>
+                    <option value="추운 날">추운 날 (10°C 이하)</option>
+                    <option value="비오는 날">비오는 날 (비/눈)</option>
+                  </select>
+                </div>
+
+                <button type="submit" class="btn-carbon" style="grid-column: span 2; height: 36px; margin-top: 6px;">DB에 직접 등록</button>
+              </form>
+            </div>
+
+            <!-- Right card: Active list table -->
+            <div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span class="typography-ui-label" id="db-count-label">등록 맛집: 0개</span>
+                <button class="btn-amber" id="reset-default-db-btn" style="padding: 2px 6px; font-size: 10px;">기본 데이터셋 리셋</button>
+              </div>
+              <div class="beveled-plate-inset" style="overflow-x: auto; padding: 8px; max-height: 400px;">
+                <table class="retro-table" id="restaurant-table">
+                  <thead>
+                    <tr>
+                      <th>식당 이름</th>
+                      <th>카테고리</th>
+                      <th>위치</th>
+                      <th>날씨</th>
+                      <th style="width: 60px; text-align: center;">제거</th>
+                    </tr>
+                  </thead>
+                  <tbody id="restaurant-table-body">
+                    <!-- JS populates -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+
+    <!-- Footer Row (Carbon navy with Halftone speaker grille texture) -->
+    <footer class="nintendo-footer halftone-slab">
+      <div class="typography-micro">
+        © 2026 오늘 뭐 먹지? Console Edition. All rights reserved.
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <a href="#" class="typography-micro">개인정보 처리방침</a>
+        <span style="color: var(--colors-sky);">|</span>
+        <a href="#" class="typography-micro">이용약관</a>
+        <!-- Secret switcher period to log into admin -->
+        <span class="secret-trigger" id="secret-admin-trigger">.</span>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Suggest Restaurant Dialog Modal (Retro Plate Style) -->
+  <div class="retro-modal-overlay" id="suggest-modal-overlay">
+    <div class="retro-modal beveled-plate chamfered-panel">
+      <div class="panel-header" style="background-color: var(--colors-signal); color: #ffffff; display: flex; justify-content: space-between; align-items: center;">
+        <span>≡ SUGGEST NEW RESTAURANT</span>
+        <span id="close-modal-btn" style="cursor: pointer; font-size: 14px; font-weight: 900;">X</span>
+      </div>
+      <div class="panel-content">
+        <form id="suggest-restaurant-form">
+          <div style="margin-bottom: var(--spacing-sm);">
+            <label class="retro-label" for="s-name">식당 이름</label>
+            <input type="text" id="s-name" class="retro-input" placeholder="예: 무르무르드구스토" required>
+          </div>
+          <div style="margin-bottom: var(--spacing-sm); display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div>
+              <label class="retro-label" for="s-category">음식 종류</label>
+              <select id="s-category" class="retro-input" style="height: 33px; background: white;" required>
+                <option value="한식">한식</option>
+                <option value="중식">중식</option>
+                <option value="일식">일식</option>
+                <option value="양식">양식</option>
+                <option value="분식">분식</option>
+                <option value="기타">기타</option>
+              </select>
+            </div>
+            <div>
+              <label class="retro-label" for="s-location">위치 상권</label>
+              <select id="s-location" class="retro-input" style="height: 33px; background: white;" required>
+                <option value="정후">안암 정후</option>
+                <option value="참살이길">참살이길</option>
+                <option value="기타">기타 상권</option>
+              </select>
+            </div>
+          </div>
+          <div style="margin-bottom: var(--spacing-sm);">
+            <label class="retro-label" for="s-weather">가장 잘어울리는 날씨</label>
+            <select id="s-weather" class="retro-input" style="height: 33px; background: white;" required>
+              <option value="상관없음">상관없음</option>
+              <option value="더운 날">더운 날 (더울 때 생각남)</option>
+              <option value="추운 날">추운 날 (추울 때 제격)</option>
+              <option value="비오는 날">비오는 날 (비/눈 내릴 때)</option>
+            </select>
+          </div>
+
+          
+          <button type="submit" class="btn-signal" style="width: 100%; justify-content: center; height: 38px;">
+            맛집 등록 승인 요청하기
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Toast -->
+  <div class="retro-toast" id="toast-notification">요청이 전송되었습니다.</div>
+
+  <script src="app.js"></script>
+</body>
+</html>

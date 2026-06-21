@@ -1,0 +1,16 @@
+{
+  "name": "bob-recommender",
+  "version": "1.0.0",
+  "description": "Premium Apple-style Random Restaurant Recommender",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx -y http-server -p 3000 -o"
+  },
+  "keywords": [
+    "recommender",
+    "apple-style",
+    "weather"
+  ],
+  "author": "Yoon Jihyun",
+  "license": "ISC"
+}
